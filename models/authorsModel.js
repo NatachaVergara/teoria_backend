@@ -9,8 +9,9 @@ module.exports.allAuthors = async () => {
 module.exports.authorById = async (id) => {
     //console.log(`MODELO ${id}`)
     const data = await request(`SELECT * FROM authors WHERE id = ${id}`);
-    return data.length > 0 ? data[0] : 'No existe ese libro';
+    return data.length > 0 ? data[0] : { message: `No existe autor con id ${id}`, data };
 }
+
 
 module.exports.createAuthor = async (name, lastName, alive) => {
     const data = await request(`
@@ -20,7 +21,6 @@ module.exports.createAuthor = async (name, lastName, alive) => {
 
     return {
         created: data.insertId ? true : false,
-        id: data.insertId ? data.insertId : null
     }
 }
 
@@ -36,17 +36,25 @@ module.exports.updateAuthor = async (id, name, lastName, alive) => {
 
     return {
         updated: data.affectedRows ? true : false,
-        data
     }
 }
 
 module.exports.deleteAuthor = async (id) => {
+    console.log(`MODELO ${id}`)
     const data = await request(`
         DELETE FROM authors WHERE id = ${id}    
     `)
+    return data.affectedRows ?
+        { message: 'Autor Eliminado', deleted: true }
+        :
+        { message: `No existe autor con id ${id}`, deleted: false }
 
-    return {
-        deleted: data.affectedRows ? true : false,
-        data
-    }
 }
+
+
+
+
+
+
+
+
