@@ -1,14 +1,22 @@
-const express = require('express')
+const express = require('express');
+const { allAuthors, authorById } = require('../models/authorsModel');
 const route = express.Router()
 
-route.use((req,res,next)=>{
-    const {host} = req.headers;
-    res.host = host;
-    next()
-})
+
+route.get('/', async (req, res) => {
+    try {
+        const data = await allAuthors()
+        return res.send(data)
+    } catch (error) {
+        console.log(error)
+        return res.send('Se produjo un error al realizar la request')
+    }
+});
 
 
-route.get('/', (req, res) => res.send('Obtención de autores'));
+
+
+
 //middleware
 route.get('/:id',
     (req, res, next) => {
@@ -21,10 +29,21 @@ route.get('/:id',
             next();
         }
     },
-    (req, res) => res.send(`Obtención de un autor con id ${req.params.id} para el host ${res.host}`)
+    async (req, res) => {
+        const { id } = req.params
+        console.log(`Routes ${id}`)
+        try {
+            const data = await authorById(id)
+            return res.send(data)
+        } catch (error) {
+            console.log(error)
+            return res.send('Se produjo un error al realizar la request')
+        }
+    }
 );
 
-route.post('/create', (req, res) => res.send('Creación de un autor'));
+route.post('/create', async (req, res) => res.send('Creación de un autor'));
+
 route.post('/create/:id', (req, res) => res.send(`Creación de un autor con id ${req.params.id}`));
 
 route.put('/update', (req, res) => res.send('Actualización de un autor'));
