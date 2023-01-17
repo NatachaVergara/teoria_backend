@@ -1,7 +1,9 @@
 const express = require('express');
 const { allAuthorsController,
     authorByIdController,
-    authorDeleteController } = require('../controllers/authorsControllers');
+    authorDeleteController,
+    authorCreateController, 
+    authorUpdateController} = require('../controllers/authorsControllers');
 const route = express.Router()
 
 //Controlador de la query de todos los autores
@@ -22,14 +24,29 @@ route.get('/:id',
     authorByIdController
 );
 
-//Controlador de la query para eliminar 1 autor
+//conexión con el Controlador para crear 1 autor
+route.post('/create', authorCreateController);
+//conexión con el Controlador de update de 1 autor
+route.put('/update/:id', authorUpdateController);
+//conexión con el Controlador de la query para eliminar 1 autor
 route.delete('/delete/:id', authorDeleteController);
 
-//Las veremos en la próxima clase
-route.post('/create', (req, res) => res.send('Creación de un autor'));
-route.put('/update/:id',
-    (req, res) => res.send(`Actualizacion de un autor con id ${req.params.id}`));
+
+
+
+
+
+
+
+
+
+
+
 module.exports = route;
+
+
+
+
 
 
 
