@@ -1,4 +1,4 @@
-const { allAuthors, authorById, deleteAuthor } = require('../models/authorsModel');
+const { allAuthors, authorById, deleteAuthor, createAuthor } = require('../models/authorsModel');
 
 
 module.exports.allAuthorsController = async (req, res) => {
@@ -21,6 +21,30 @@ module.exports.authorByIdController = async (req, res) => {
         return res.send('Se produjo un error al realizar la request');
     }
 }
+
+
+module.exports.authorCreateController = async (req, res) => {
+    const { name, lastName, alive } = req.body;
+
+    try {
+        const data = await createAuthor(name, lastName, alive)
+        return data.created ? res.send(data.newData) :  
+    } catch (error) {
+        return res.send('Se produjo un error al realizar la request');
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 module.exports.authorDeleteController = async (req, res) => {
     //console.log(`MODELO ${id}`)

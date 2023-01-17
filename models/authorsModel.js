@@ -18,11 +18,22 @@ module.exports.createAuthor = async (name, lastName, alive) => {
     INSERT INTO authors(name, lastName, alive)
     VALUES('${name}', '${lastName}', ${alive})
     `);
-
+    const newData = await request(`SELECT * FROM authors`);
     return {
         created: data.insertId ? true : false,
+        newData
     }
 }
+
+
+
+
+
+
+
+
+
+
 
 
 module.exports.updateAuthor = async (id, name, lastName, alive) => {
