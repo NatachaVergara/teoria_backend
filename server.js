@@ -1,16 +1,17 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const PORT = 3001;
+
+//Puerto con variable de entorno
+const PORT = process.env.PORT || 3001;
 
 
-app.use(express.json());
-
+//Controladores
 const authorsRoute = require('./routes/authorsRoutes');
 
-
-app.use('/static', express.static(__dirname + '/public'));
+app.use(express.json());
 app.use(cors());
+app.use('/static', express.static(__dirname + '/public'));
 app.get('/', (req, res) => res.send('Hola mundo'));
 app.use('/authors', authorsRoute);
 
