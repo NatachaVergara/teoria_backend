@@ -22,7 +22,6 @@ module.exports.authorByIdController = async (req, res) => {
     }
 }
 
-
 module.exports.authorCreateController = async (req, res) => {
     const { name, lastName, alive } = req.body;
     //Le envio a mi modelo los datos del body
@@ -34,8 +33,6 @@ module.exports.authorCreateController = async (req, res) => {
         return res.send('Se produjo un error al realizar la request');
     }
 };
-
-
 module.exports.authorUpdateController = async (req, res) => {
     const { id } = req.params;
     const { name, lastName, alive } = req.body;
@@ -43,18 +40,11 @@ module.exports.authorUpdateController = async (req, res) => {
     try {
         const data = await updateAuthor(id, name, lastName, alive)
         return data.updated ? res.send(data) : res.send(data)
-
     } catch (error) {
         console.log(error)
         return res.send('Se produjo un error al realizar la request');
     }
 };
-
-
-
-
-
-
 
 
 

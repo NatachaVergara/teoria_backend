@@ -20,9 +20,9 @@ module.exports.createAuthor = async (name, lastName, alive) => {
     VALUES('${name}', '${lastName}', ${alive})
     `);
     const newData = await request(`SELECT * FROM authors`);
-    return {
-        created: data.insertId ? { message: 'Autor creado', created: true, newData } : { created: false, message: 'Hubo un error al momento de crear el autor' },
-    }
+
+    return data.insertId ? { message: 'Autor creado', created: true, newData } : { message: 'Hubo un error al momento de crear el autor', created: false }
+
 };
 
 module.exports.updateAuthor = async (id, name, lastName, alive) => {
@@ -36,10 +36,17 @@ module.exports.updateAuthor = async (id, name, lastName, alive) => {
         `);
     const newData = await request(`SELECT * FROM authors`);
 
-    return {
-        updated: data.affectedRows ? { message: 'Autor actualizado', updated: true, newData } : { message: `No existe autor con id ${id}`, updated: false, newData },
-    }
+    return data.affectedRows ? { message: 'Autor actualizado', updated: true, newData } : { message: `No existe autor con id ${id}`, updated: false, newData }
+
 };
+
+
+
+
+
+
+
+
 
 
 
