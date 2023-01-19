@@ -11,8 +11,7 @@ const authorsRoute = require('./routes/authorsRoutes');
 
 app.use(express.json());
 app.use(cors());
-app.use('/static', express.static(__dirname + '/public'));
-app.get('/', (req, res) => res.send('Hola mundo'));
+app.use('/', express.static(__dirname + '/public'));
 app.use('/authors', authorsRoute);
 
 app.listen(PORT, () => console.log('Servidor levandado en el PORT: ', PORT));
