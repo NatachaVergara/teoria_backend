@@ -1,15 +1,15 @@
-const express = require('express')
+const express = require('express');
+const { allAuthorsController,
+    authorByIdController,
+    authorDeleteController,
+    authorCreateController, 
+    authorUpdateController} = require('../controllers/authorsControllers');
 const route = express.Router()
 
-route.use((req,res,next)=>{
-    const {host} = req.headers;
-    res.host = host;
-    next()
-})
+//Controlador de la query de todos los autores
+route.get('/', allAuthorsController);
 
-
-route.get('/', (req, res) => res.send('Obtención de autores'));
-//middleware
+//Controlador de la query de 1 autor con middleware
 route.get('/:id',
     (req, res, next) => {
         const { id } = req.params;
@@ -21,16 +21,37 @@ route.get('/:id',
             next();
         }
     },
-    (req, res) => res.send(`Obtención de un autor con id ${req.params.id} para el host ${res.host}`)
+    authorByIdController
 );
 
-route.post('/create', (req, res) => res.send('Creación de un autor'));
-route.post('/create/:id', (req, res) => res.send(`Creación de un autor con id ${req.params.id}`));
+//conexión con el Controlador para crear 1 autor
+route.post('/create', authorCreateController);
+//conexión con el Controlador de update de 1 autor
+route.put('/update/:id', authorUpdateController);
+//conexión con el Controlador de la query para eliminar 1 autor
+route.delete('/delete/:id', authorDeleteController);
 
-route.put('/update', (req, res) => res.send('Actualización de un autor'));
-route.put('/update/:id', (req, res) => res.send(`Actualizacion de un autor con id ${req.params.id}`));
 
-route.delete('/delete', (req, res) => res.send('Eliminación de un autor'));
-route.delete('/delete/:id', (req, res) => res.send(`Eliminación de un autor con id ${req.params.id}`));
+
+
+
+
+
+
+
+
+
 
 module.exports = route;
+
+
+
+
+
+
+
+
+
+
+
+
