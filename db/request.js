@@ -2,11 +2,11 @@ const mysql = require('mysql');
 
 module.exports.request = (query) => new Promise((res, rej) => {
     const connection = mysql.createConnection({
-        host: 'localhost',
+        host: 'mysql-websitebackend.alwaysdata.net',
         port: 3306,
-        user: 'root',
-        password: '',
-        database: 'pdtc_ejercicios'
+        user: '296653_backenddb',
+        password: 'Elisabet1986!',
+        database: 'websitebackend_db'
     });
 
     connection.query(query, (error, data, fields) => {
