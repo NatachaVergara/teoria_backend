@@ -20,7 +20,7 @@ module.exports.loginUser = async (email, password) => {
     if (data.length) {
         return { isUser: true, query: data[0], msg: 'Bienvenido/a' }
     } else {
-        return { isUser: false, msg: 'Usuario y contraseña equivocado. ¿Ya tiene cuenta?' }
+        return { isUser: false, msg: 'Email y/o contraseña equivocada. ¿Ya tiene cuenta?' }
     }
 
 }
