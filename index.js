@@ -8,11 +8,13 @@ const PORT = process.env.PORT || 3001;
 
 //Controladores
 const authorsRoute = require('./routes/authorsRoutes');
+const usersRoute = require('./routes/usersRoutes')
 
 app.use(express.json());
 app.use(cors());
 app.use('/', express.static(__dirname + '/public'));
 app.use('/authors', authorsRoute);
+app.use('/users', usersRoute);
 
 app.listen(PORT, () => console.log('Servidor levandado en el PORT: ', PORT));
 
