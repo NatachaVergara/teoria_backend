@@ -15,7 +15,7 @@ module.exports.createAdmin = async (email, password) => {
 
 
 module.exports.loginUser = async (email, password) => {
-    const data = await request(`SELECT * FROM user WHERE email = ${email}`)
+    const data = await request(`SELECT * FROM user WHERE email = "${email}"`)
 
     if (data.length) {
         return { isUser: true, query: data[0], msg: 'Bienvenido/a' }
