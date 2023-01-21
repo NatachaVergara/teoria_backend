@@ -10,6 +10,6 @@ module.exports.createUser = async (email, password) => {
 module.exports.createAdmin = async (email, password) => {
     const data = await request(`INSERT INTO users(email, password, type) VALUES("${email}", "${password}", "ADMIN")`)
 
-    return data.insertId ? { created: true, msg: 'Admin creado satisfactoriamente' } : { created: false, msg: 'Hubo un problema y no se pudo crear el usuario. Intente mas tarde' }
+    return data.insertId ? { created: true, msg: 'Admin creado satisfactoriamente', query:data } : { created: false, msg: 'Hubo un problema y no se pudo crear el usuario. Intente mas tarde', query:data }
 
 }
