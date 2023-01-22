@@ -1,7 +1,10 @@
 const { request } = require('../db/request');
 
+const {hashPassword} = require('../utils/password')
+
 module.exports.createUser = async (email, password) => {
-    const data = await request(`INSERT INTO users(email, password, type) VALUES("${email}", "${password}", "NOTADMIN")`);
+    const hashedPassword = hashPassword(password)
+    const data = await request(`INSERT INTO users(email, password, type) VALUES("${email}", "${hashedPassword}", "NOTADMIN")`);
 
     return data.insertId ? { created: true, msg: 'Usuario creado, ahora puede loguearse' } : { created: false, msg: 'Hubo un problema y no se pudo crear el usuario. Intente mas tarde' }
 
