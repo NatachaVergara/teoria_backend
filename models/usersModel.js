@@ -6,12 +6,13 @@ module.exports.createUser = async (email, password) => {
     const hashedPassword = hashPassword(password)
     const data = await request(`INSERT INTO users(email, password, type) VALUES("${email}", "${hashedPassword}", "NOTADMIN")`);
 
-    return data.insertId ? { created: true, msg: 'Usuario creado, ahora puede loguearse' } : { created: false, msg: 'Hubo un problema y no se pudo crear el usuario. Intente mas tarde' }
+    return data.insertId ? { created: true, msg: 'Usuario creado, ahora puede loguearse', query: data  } : { created: false, msg: 'Hubo un problema y no se pudo crear el usuario. Intente mas tarde',  query: data  }
 
 };
 
 module.exports.createAdmin = async (email, password) => {
-    const data = await request(`INSERT INTO users(email, password, type) VALUES("${email}", "${password}", "ADMIN")`);
+    const hashedPassword = hashPassword(password)
+    const data = await request(`INSERT INTO users(email, password, type) VALUES("${email}", "${hashedPassword}", "ADMIN")`);
 
     return data.insertId ? { created: true, msg: 'Admin creado satisfactoriamente', query: data } : { created: false, msg: 'Hubo un problema y no se pudo crear el usuario. Intente mas tarde', query: data }
 };
