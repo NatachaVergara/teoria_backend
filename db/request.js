@@ -18,6 +18,4 @@ module.exports.request = (query) => new Promise((res, rej) => {
         })
 
     });
-
-
 })

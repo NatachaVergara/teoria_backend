@@ -35,13 +35,6 @@ route.delete('/delete/:id', authorDeleteController);
 
 
 
-
-
-
-
-
-
-
 module.exports = route;
 
 
