@@ -1,23 +1,44 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const { allAuthorsController,
     authorByIdController,
     authorDeleteController,
-    authorCreateController, 
-    authorUpdateController} = require('../controllers/authorsControllers');
+    authorCreateController,
+    authorUpdateController } = require('../controllers/authorsControllers');
 const route = express.Router()
 
+
+const aunthenticateToken = (req, res, next) =>{
+    const bearerHeader = req.headers['authorization'];
+    if (typeof bearerHeader !== 'undefined')
+    {
+        const bearerToken = bearerHeader.split(' ')[1];
+        req.token = bearerToken;
+        next()
+    } else
+    {
+        req.status(403);
+    }   
+}
+
+
+
+
 //Controlador de la query de todos los autores
-route.get('/', allAuthorsController);
+route.get('/', aunthenticateToken, allAuthorsController);
 
 //Controlador de la query de 1 autor con middleware
 route.get('/:id',
-    (req, res, next) => {
+    (req, res, next) =>
+    {
         const { id } = req.params;
         const numId = Number(id);
 
-        if (isNaN(numId) || numId < 1) {
+        if (isNaN(numId) || numId < 1)
+        {
             return res.send('El id es inválido');
-        } else {
+        } else
+        {
             next();
         }
     },
