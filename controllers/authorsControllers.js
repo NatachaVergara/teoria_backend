@@ -1,28 +1,6 @@
 const { allAuthors, authorById, deleteAuthor, createAuthor, updateAuthor } = require('../models/authorsModel');
 const jwt = require('jsonwebtoken');
 
-const aunthenticateToken = (req, res, next) =>
-{
-    const bearerHeader = req.headers['authorization'];
-    if (typeof bearerHeader !== 'undefined')
-    {
-        const bearerToken = bearerHeader.split(' ')[1];
-        req.token = bearerToken;
-        next()
-    } else
-    {
-        req.status(403);
-    }
-
-    jwt.verify(req.token, '65465465654654', (error, data) =>
-    {
-        if (error) return res.status(403);
-
-        res.send(data)
-    })
-}
-
-
 
 module.exports.allAuthorsController = async (req, res) =>
 {
@@ -43,6 +21,13 @@ module.exports.authorByIdController = async (req, res) =>
     try
     {
         const data = await authorById(id)
+        jwt.verify(req.token, '65465465654654', (error, data) =>
+        {
+            if (error) return res.status(403);
+            console.log(data)
+            let type = data.query.type
+            if (type !== "ADMIN") return res.status(403).send('Usuario no autorizado')
+        })
         return res.send(data)
     } catch (error)
     {
@@ -53,20 +38,41 @@ module.exports.authorByIdController = async (req, res) =>
 
 module.exports.authorCreateController = async (req, res) =>
 {
+    jwt.verify(req.token, '65465465654654', (error, data) =>
+    {
+        if (error) return res.status(403);
+        // console.log(data)
+        let type = data.query.type
+        if (type !== "ADMIN") return res.status(403).send('Usuario no autorizado')
+    })
+
+
     const { name, lastName, alive } = req.body;
     //Le envio a mi modelo los datos del body
     try
     {
         const data = await createAuthor(name, lastName, alive)
         return data.created ?
-            res.send(data) : res.send(data)
+            res.status(201).send(data) : res.send(data)
     } catch (error)
     {
         return res.send('Se produjo un error al realizar la request');
     }
 };
+
+
+
+
 module.exports.authorUpdateController = async (req, res) =>
 {
+    jwt.verify(req.token, '65465465654654', (error, data) =>
+    {
+        if (error) return res.status(403);
+        // console.log(data)
+        let type = data.query.type
+        if (type !== "ADMIN") return res.status(403).send('Usuario no autorizado')
+    })
+
     const { id } = req.params;
     const { name, lastName, alive } = req.body;
     //Le envio a mi modelo los datos del body y de params
@@ -82,13 +88,16 @@ module.exports.authorUpdateController = async (req, res) =>
 };
 
 
-
-
-
-
 module.exports.authorDeleteController = async (req, res) =>
 {
-    //console.log(`MODELO ${id}`)
+    jwt.verify(req.token, '65465465654654', (error, data) =>
+    {
+        if (error) return res.status(403);
+        // console.log(data)
+        let type = data.query.type
+        if (type !== "ADMIN") return res.status(403).send('Usuario no autorizado')
+    })
+
     const { id } = req.params
     try
     {

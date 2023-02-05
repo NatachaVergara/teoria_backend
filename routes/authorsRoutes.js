@@ -8,7 +8,8 @@ const { allAuthorsController,
 const route = express.Router()
 
 
-const aunthenticateToken = (req, res, next) =>{
+const aunthenticateToken = (req, res, next) =>
+{
     const bearerHeader = req.headers['authorization'];
     if (typeof bearerHeader !== 'undefined')
     {
@@ -17,33 +18,18 @@ const aunthenticateToken = (req, res, next) =>{
         next()
     } else
     {
-        req.status(403);
-    }   
+        return res.status(403).send('No autorizado');
+    }
 }
 
 
 
 
 //Controlador de la query de todos los autores
-route.get('/', aunthenticateToken, allAuthorsController);
+route.get('/', allAuthorsController);
 
 //Controlador de la query de 1 autor con middleware
-route.get('/:id',
-    (req, res, next) =>
-    {
-        const { id } = req.params;
-        const numId = Number(id);
-
-        if (isNaN(numId) || numId < 1)
-        {
-            return res.send('El id es inválido');
-        } else
-        {
-            next();
-        }
-    },
-    authorByIdController
-);
+route.get('/:id', aunthenticateToken, authorByIdController);
 
 //conexión con el Controlador para crear 1 autor
 route.post('/create', authorCreateController);
