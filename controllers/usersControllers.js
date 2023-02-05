@@ -1,5 +1,6 @@
 const { createUser, createAdmin, loginUser } = require("../models/usersModel")
 const jwt = require('jsonwebtoken');
+const { createToken } = require("../utils/createToken");
 
 module.exports.createUserController = async (req, res) =>
 {
@@ -36,9 +37,7 @@ module.exports.loginUserController = async (req, res) =>
     try
     {
         const data = await loginUser(email, password);
-        return data.isUser ? res.status(200).send(
-            token = jwt.sign(data, '65465465654654')
-        ) : res.status(200).send(data)
+        return data.isUser ? res.status(200).send({ token: createToken(data), user: data }) : res.status(200).send({ user: data })
     } catch (error)
     {
         console.log(error)
