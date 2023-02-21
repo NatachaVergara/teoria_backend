@@ -6,9 +6,10 @@ const logger = require('morgan')
 const PORT = process.env.PORT || 3001;
 
 
-//Controladores
+//rutas
 const authorsRoute = require('./routes/authorsRoutes');
-const usersRoute = require('./routes/usersRoutes')
+const usersRoute = require('./routes/usersRoutes');
+const emailRoute = require('./routes/emailRoutes');
 
 app.use(express.json());
 app.use(cors());
@@ -16,6 +17,7 @@ app.use(logger('dev'))
 app.use('/', express.static(__dirname + '/public'));
 app.use('/authors', authorsRoute);
 app.use('/users', usersRoute);
+app.use('/email', emailRoute);
 
 app.listen(PORT, () => console.log('Servidor levandado en el PORT: ', PORT));
 
