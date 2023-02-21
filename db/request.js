@@ -1,9 +1,6 @@
 const mysql = require('mysql');
 require('dotenv').config()
 
-
-
-
 module.exports.request = (query) => new Promise((res, rej) => {
     const connection = mysql.createConnection({
         host: process.env.DB_HOST,
