@@ -14,6 +14,7 @@ const emailRoute = require('./routes/emailRoutes');
 app.use(express.json());
 app.use(cors());
 app.use(logger('dev'))
+/*Ruta pública*/
 app.use('/', express.static(__dirname + '/public'));
 app.use('/authors', authorsRoute);
 app.use('/users', usersRoute);

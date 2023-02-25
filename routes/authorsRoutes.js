@@ -4,6 +4,7 @@ const { allAuthorsController,
     authorDeleteController,
     authorCreateController,
     authorUpdateController } = require('../controllers/authorsControllers');
+const { upload } = require('../middleware/imgUpload');
 const { aunthenticateToken } = require('../middleware/tokenAutentication');
 const route = express.Router()
 
@@ -15,9 +16,9 @@ route.get('/', allAuthorsController);
 route.get('/:id', aunthenticateToken, authorByIdController);
 
 //conexión con el Controlador para crear 1 autor con middleware de autorización
-route.post('/create', aunthenticateToken, authorCreateController);
+route.post('/create', aunthenticateToken, upload.single('image'), authorCreateController);
 //conexión con el Controlador de update de 1 autor con middleware de autorización
-route.put('/update/:id',  aunthenticateToken, authorUpdateController);
+route.put('/update/:id', aunthenticateToken,upload.single('image'), authorUpdateController);
 //conexión con el Controlador de la query para eliminar 1 autor con middleware de autorización
 route.delete('/delete/:id', aunthenticateToken, authorDeleteController);
 
